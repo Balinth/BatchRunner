@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BatchRunner.Persistence.LiteDb\BatchRunner.Persistence.LiteDB.csproj" />
-    <ProjectReference Include="..\BatchRunnerDomain\BatchRunner.Domain.csproj" />
+    <ProjectReference Include="..\BatchRunner.Domain\BatchRunner.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BatchRunnerWebAPI", "BatchRunnerWebAPI\BatchRunnerWebAPI.csproj", "{1E4D82FF-EB71-4D49-BFAC-A9B405C60DD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BatchRunner.WebAPI", "BatchRunner.WebAPI\BatchRunner.WebAPI.csproj", "{1E4D82FF-EB71-4D49-BFAC-A9B405C60DD2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BatchRunner.Domain", "BatchRunnerDomain\BatchRunner.Domain.csproj", "{FA673455-E879-4F31-B5FF-F9B90EB1AC20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BatchRunner.Domain", "BatchRunner.Domain\BatchRunner.Domain.csproj", "{FA673455-E879-4F31-B5FF-F9B90EB1AC20}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BatchRunner.Actors", "BatchRunner.Actors\BatchRunner.Actors.csproj", "{E90A9321-282A-4C31-9578-1028DC157028}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BatchRunner.Persistence.Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{484086C6-9BEE-4EEC-B314-95C615D40961}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchmarkLiteDB", "BenchmarkLiteDB\BenchmarkLiteDB.csproj", "{4F85B45F-88F0-42FE-BA99-C4E0EAFFF2AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark.LiteDB", "Benchmark.LiteDB\Benchmark.LiteDB.csproj", "{4F85B45F-88F0-42FE-BA99-C4E0EAFFF2AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
