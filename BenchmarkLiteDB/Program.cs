@@ -18,8 +18,13 @@ namespace BenchmarkLiteDB
             var summary = BenchmarkRunner.Run<ReflectionDeserialization>();
         }
     }
+    /// <summary>
+    /// Note: see actual benchmark on commit fc16ec876c00130b39d6610eacb05090f5ddf6ca
+    /// The result was: the reflection based deserializer method init has no added cost compared to the manual static method calls.
+    /// </summary>
     public class ReflectionDeserialization
     {
+        /*
         [Params(100,1000)]
         public int IterationCount;
 
@@ -47,5 +52,6 @@ namespace BenchmarkLiteDB
                 var allEvents = sut.GetAllTaskEvents().ToList();
             }
         }
+         */
     }
 }

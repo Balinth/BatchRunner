@@ -41,7 +41,6 @@ namespace BatchRunner.Persistence.LiteDB
                     var concreteAdder = addDeserializerInfo!.MakeGenericMethod(deserializerInfo.ReturnType);
                     var concreteDeserializer = deserializerInfo.CreateDelegate(concreteAdder.GetParameters()[1].ParameterType, taskEventDeserializer);
                     concreteAdder.Invoke(null, new object[] { mapper, concreteDeserializer });
-                    Thread.Sleep(1000);
                 }
             }
 
@@ -118,7 +117,7 @@ namespace BatchRunner.Persistence.LiteDB
         /// The created repository can be left open and reused as many times as needed.
         /// </summary>
         /// <param name="liteDatabaseFilePath"></param>
-        public TaskEventRepository(ILiteDatabase liteDatabase, bool usingReflection = true)
+        public TaskEventRepository(ILiteDatabase liteDatabase)
         {
             BsonMapper mapper = liteDatabase.Mapper;
             mapper.Entity<OrderAnnotatedEvent>()
@@ -128,27 +127,10 @@ namespace BatchRunner.Persistence.LiteDB
                     id: doc["_id"],
                     @event: mapper.Deserialize<IEvent>(doc[nameof(OrderAnnotatedEvent.Event)])));
 
-            if (usingReflection)
-            {
-                TaskEventDeserializer.AddAllDeserializers(mapper);
-            }
-            else
-            {
-                var eventDeserializer = new TaskEventDeserializer(mapper);
-
-                mapper.Entity<TaskScheduled>()
-                    .Ctor(doc => eventDeserializer.CreateTaskScheduled(doc));
-                mapper.Entity<TaskCancelled>()
-                    .Ctor(doc => eventDeserializer.CreateTaskCancelled(doc));
-                mapper.Entity<TaskStarted>()
-                    .Ctor(doc => eventDeserializer.CreateTaskStarted(doc));
-                mapper.Entity<TaskFinished>()
-                    .Ctor(doc => eventDeserializer.CreateTaskFinished(doc));
-                mapper.Entity<TaskFailed>()
-                    .Ctor(doc => eventDeserializer.CreateTaskFailed(doc));
-            }
+            TaskEventDeserializer.AddAllDeserializers(mapper);
 
             this.liteDatabase = liteDatabase;
+
             EventOrderCollection.EnsureIndex(o => o.EventNumber);
         }
 
@@ -164,7 +146,7 @@ namespace BatchRunner.Persistence.LiteDB
 
             if (
                 EventOrderCollection
-                .Find(Query.All(nameof(OrderAnnotatedEvent.EventNumber),Query.Descending))
+                .Find(Query.All(nameof(OrderAnnotatedEvent.EventNumber),Query.Descending), limit:1)
                 //.OrderByDescending(o => o.EventNumber)
                 .FirstOrDefault() is OrderAnnotatedEvent lastEvent)
             {
@@ -178,10 +160,14 @@ namespace BatchRunner.Persistence.LiteDB
             EventOrderCollection.Insert(new OrderAnnotatedEvent(eventNumber, taskEvent.EventId, taskEvent));
         }
 
+        /// <summary>
+        /// Gets all task events, ordered by the sequence of their occurence.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<ITaskEvent> GetAllTaskEvents()
         {
             return EventOrderCollection
-                .Find(Query.All(nameof(OrderAnnotatedEvent.EventNumber), Query.Descending))
+                .Find(Query.All(nameof(OrderAnnotatedEvent.EventNumber), Query.Ascending))
                 //.OrderByDescending(o => o.EventNumber)
                 //.FindAll()
                 //.OrderBy(o => o.EventNumber)
